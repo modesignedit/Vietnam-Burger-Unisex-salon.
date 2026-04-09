@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Services: Publicly readable
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if false; // Locked for now as auth was removed
+    }
+
+    // Gallery: Publicly readable
+    match /gallery/{imageId} {
+      allow read: if true;
+      allow write: if false; // Locked for now as auth was removed
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
